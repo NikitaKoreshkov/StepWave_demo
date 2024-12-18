@@ -411,43 +411,99 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-document.getElementById('send-reset-link').addEventListener('click', function (event) {
+
+
+
+ document.getElementById('send-reset-link').addEventListener('click', function (event) {
     event.preventDefault(); // Отменяем стандартное поведение кнопки
 
     const emailInput = document.getElementById('reset-email');
     const email = emailInput.value;
 
     if (!email) {
-        alert('Пожалуйста, введите ваш email!');
+        showError('Пожалуйста, введите ваш email!');
         return;
     }
 
-    // Отправляем запрос на сервер
-    fetch('http://localhost:8082/api/email/forgot-password', {
+    // Отправляем запрос на сервер для получения кода подтверждения
+    fetch('http://localhost:8082/api/email/send-confirmation-code', {  // Используем правильный эндпоинт
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: email }),
+        body: JSON.stringify({ username: email }), // Отправляем email как username
     })
-        .then((response) => {
-            if (response.ok) {
-                // Показываем сообщение об успехе
-                const successMessage = document.getElementById('password-reset-success');
-                successMessage.style.display = 'block';
+    .then((response) => {
+        if (response.ok) {
+            return response.json(); // Парсим ответ от сервера
+        } else {
+            // Обрабатываем ошибку, если сервер вернул не 200 OK
+            response.json().then((data) => {
+                showError(`Ошибка: ${data.message || 'Не удалось отправить код подтверждения.'}`);
+            });
+        }
+    })
+    .then((data) => {
+        // Если код подтверждения был отправлен
+        if (data.message === "Код подтверждения отправлен на указанный email.") {
+            // Показываем сообщение об успехе
+            const successMessage = document.getElementById('password-reset-success');
+            successMessage.style.display = 'block';
 
-                // Скрываем форму сброса
-                const resetForm = document.getElementById('reset-password-form');
-                resetForm.style.display = 'none';
-            } else {
-                // Обрабатываем ошибку, если сервер вернул не 200 OK
-                response.json().then((data) => {
-                    alert(`Ошибка: ${data.message || 'Не удалось отправить письмо.'}`);
-                });
-            }
-        })
-        .catch((error) => {
-            console.error('Ошибка запроса:', error);
-            alert('Произошла ошибка при отправке запроса. Попробуйте позже.');
-        });
+            // Скрываем форму сброса
+            const resetForm = document.getElementById('reset-password-form');
+            resetForm.style.display = 'none';
+        }
+    })
+    .catch((error) => {
+        console.error('Ошибка запроса:', error);
+        showError('Произошла ошибка при отправке запроса. Попробуйте позже.');
+    });
 });
+
+
+
+document.getElementById("login-form-data").addEventListener("submit", async function (event) {
+    event.preventDefault(); // Предотвращаем стандартную отправку формы
+
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    const loadingMessage = document.getElementById("login-submit");
+    loadingMessage.textContent = "Загрузка...";
+    loadingMessage.classList.add("btn-loading"); // Добавляем класс анимации
+
+    // Задержка перед отправкой запроса
+    setTimeout(async () => {
+        try {
+            const response = await fetch("/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+                // Перенаправление на dashboard через 2 секунды после успешного логина
+                window.location.href = "http://localhost:8082/dashboard"; // Перенаправление на нужный адрес
+            } else {
+                // Если ошибка авторизации
+                const errorMessage = await response.text();
+                document.getElementById("login-password-error").textContent = errorMessage;
+                document.getElementById("login-password-error").style.display = "block";
+            }
+        } catch (error) {
+            alert("Ошибка сервера. Попробуйте позже.");
+        } finally {
+            // Восстанавливаем кнопку после загрузки
+            loadingMessage.textContent = "Войти";
+            loadingMessage.classList.remove("btn-loading"); // Убираем анимацию
+        }
+    }, 2000); // Задержка 2 секунды перед отправкой запроса
+});
+
+
+
+
+

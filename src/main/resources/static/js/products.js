@@ -282,3 +282,6 @@ window.onload = function() {
 
 
 
+function goToProductDetails(productId) {
+    window.location.href = "http://localhost:8082/productDetails/" + productId;
+}

@@ -10,3 +10,5 @@ public class App {
         SpringApplication.run(App.class, args); // Запуск приложения
     }
 }
+
+// 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

@@ -360,55 +360,96 @@ input#new-username.invalid, .btn.invalid {
 
 
 
-
-/* Стиль для успешного сообщения */
+/* Окно с сообщением об успешной отправке письма */
 #password-reset-success {
-    display: none; /* Окно скрыто по умолчанию */
-    position: fixed;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
     background-color: #000; /* Черный фон */
-    color: green; /* Зеленый текст */
-    border: 2px solid green; /* Зеленая обводка */
-    padding: 20px 30px;
-    border-radius: 10px;
+    color: #28a745; /* Зеленый текст */
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
     font-size: 16px;
     font-weight: bold;
-    z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Легкая тень */
-    animation: slideDown 0.5s ease forwards; /* Анимация появления */
+    z-index: 10;  /* Устанавливаем ниже для окна с ошибкой */
+    display: none;  /* скрыто по умолчанию */
+    border: 2px solid #28a745; /* Зеленая обводка */
+    animation: fadeIn 0.5s ease-in-out; /* Анимация появления */
 }
 
-@keyframes slideDown {
+/* Форма для сброса пароля */
+#reset-password-form {
+    position: relative; /* Позиционируем форму */
+    z-index: 1; /* Устанавливаем форму на уровень выше окна успеха */
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
     0% {
-        top: -50px;
-        opacity: 0;
+        opacity: 0; /* Начальная непрозрачность */
+        transform: translateY(-20px); /* Начальная позиция сверху */
     }
     100% {
-        top: 50px;
-        opacity: 1;
+        opacity: 1; /* Конечная непрозрачность */
+        transform: translateY(0); /* Конечная позиция */
     }
 }
 
-/* Стили для контента сообщения */
-#password-reset-success .message-content h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
+/* Когда класс .visible добавлен, окно появляется */
+#password-reset-success.visible {
+    display: block; /* Показываем окно */
 }
 
-#password-reset-success .message-content p {
+
+/* Окно с сообщением об ошибке */
+#reset-error-message {
+    background-color: #000; /* Черный фон */
+    color: #ff4d4d; /* Красный текст */
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
     font-size: 16px;
+    font-weight: bold;
+    z-index: 9999;
+    display: none;  /* скрыто по умолчанию */
+    border: 2px solid #ff4d4d; /* Красная обводка */
+    animation: fadeIn 0.5s ease-in-out; /* Анимация появления */
 }
 
-/* Анимация для скрытия сообщения */
-@keyframes slideUp {
+/* Анимация появления */
+@keyframes fadeIn {
     0% {
-        top: 50px;
-        opacity: 1;
+        opacity: 0; /* Начальная непрозрачность */
+        transform: translateY(-20px); /* Начальная позиция сверху */
     }
     100% {
-        top: -50px;
-        opacity: 0;
+        opacity: 1; /* Конечная непрозрачность */
+        transform: translateY(0); /* Конечная позиция */
     }
+}
+
+/* Когда класс .visible добавлен, окно появляется */
+#reset-error-message.visible {
+    display: block; /* Показываем окно */
+}
+
+
+
+/* Анимация загрузки для кнопки */
+@keyframes loadingAnimation {
+    0% {
+        background-color: #007bff;
+    }
+    50% {
+        background-color: #0056b3;
+    }
+    100% {
+        background-color: #007bff;
+    }
+}
+
+.btn-loading {
+    animation: loadingAnimation 2s ease-in-out infinite;
 }

@@ -31,15 +31,14 @@
 
     <div id="login-form" class="container" style="display: none;">
         <h2 id="login-header">Вход</h2>
-        <form action="/login" method="POST" id="login-form-data">
+        <form id="login-form-data">
             <input type="text" id="username" name="username" placeholder="Введите вашу почту" required>
             <div class="password-container">
                 <input type="password" id="password" name="password" placeholder="Введите пароль" required>
-                <img class="eye-icon" id="toggle-password-login" src="/static/images/icons/close.png" />
+                <img class="eye-icon" id="toggle-password-login" src="/static/images/icons/close.png" alt="Показать/скрыть пароль" />
             </div>
             <div id="login-password-error" style="color: red; display: none;">Пароль должен содержать более 8 символов и хотя бы одну заглавную букву.</div>
             <a href="#" class="forgot-password" id="forgot-password-link">Забыли пароль?</a>
-
             <button type="submit" class="btn" id="login-submit">Войти</button>
             <button type="button" class="btn-back" id="back-to-main">Назад</button>
         </form>
@@ -88,6 +87,11 @@
     <!-- Окно с сообщением об успешной отправке письма -->
     <div id="password-reset-success" style="display: none;">
         <h3>Ссылка для сброса пароля была отправлена на ваш email. Пожалуйста, проверьте почту.</h3>
+    </div>
+
+    <!-- Окно с сообщением об ошибке -->
+    <div id="reset-error-message" class="error-message">
+        Пользователь с таким email не найден.
     </div>
 
 </div>

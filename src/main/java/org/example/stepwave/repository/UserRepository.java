@@ -20,4 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // Проверка на существование токена сброса пароля
     boolean existsByResetToken(String resetToken);
+
+    // Поиск пользователя по коду подтверждения
+    Optional<User> findByConfirmationCode(String confirmationCode);
 }

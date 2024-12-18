@@ -35,8 +35,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
 
     // Получаем токен из параметров URL
     const urlParams = new URLSearchParams(window.location.search);
-    const tokenUrl = urlParams.get('token'); // Получаем полный URL с токеном
-    const token = new URL(tokenUrl).searchParams.get('token'); // Извлекаем токен из URL
+    const token = urlParams.get('token'); // Получаем токен из URL
 
     if (!token) {
         alert('Токен не найден в URL!');
@@ -44,7 +43,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
     }
 
     // Отправляем запрос на сервер для сброса пароля
-    fetch('/api/reset-password', { // Используем относительный путь
+    fetch('http://localhost:8082/api/email/reset-password', { // Используем правильный путь
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

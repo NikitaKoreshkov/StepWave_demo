@@ -21,10 +21,16 @@ public class User {
     private LocalDateTime createdAt;
 
     @Column(name = "reset_token")
-    private String resetToken;  // Новый столбец для токена сброса
+    private String resetToken;  // Столбец для токена сброса
 
     @Column(name = "reset_token_expiry")
-    private LocalDateTime resetTokenExpiry;  // Новый столбец для срока действия токена
+    private LocalDateTime resetTokenExpiry;  // Столбец для срока действия токена
+
+    @Column(name = "confirmation_code", length = 6)
+    private String confirmationCode;  // Столбец для кода подтверждения
+
+    @Column(name = "confirmation_code_expiry")
+    private LocalDateTime confirmationCodeExpiry;  // Новый столбец для срока действия кода подтверждения
 
     // Конструктор без параметров
     public User() {
@@ -84,6 +90,22 @@ public class User {
 
     public void setResetTokenExpiry(LocalDateTime resetTokenExpiry) {
         this.resetTokenExpiry = resetTokenExpiry;
+    }
+
+    public String getConfirmationCode() {
+        return confirmationCode;
+    }
+
+    public void setConfirmationCode(String confirmationCode) {
+        this.confirmationCode = confirmationCode;
+    }
+
+    public LocalDateTime getConfirmationCodeExpiry() {
+        return confirmationCodeExpiry;
+    }
+
+    public void setConfirmationCodeExpiry(LocalDateTime confirmationCodeExpiry) {
+        this.confirmationCodeExpiry = confirmationCodeExpiry;
     }
 
     // Методы для автоматического заполнения временного поля

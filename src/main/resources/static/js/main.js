@@ -302,3 +302,5 @@ document.addEventListener("DOMContentLoaded", () => {
       this.form.submit(); // Отправка формы при нажатии Enter
     }
   });
+
+

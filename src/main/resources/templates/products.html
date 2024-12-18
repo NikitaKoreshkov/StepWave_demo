@@ -161,14 +161,15 @@
 
     <!-- Сетка продуктов -->
     <div class="product-grid">
-      <div class="product-card" th:each="product : ${products}">
+      <a th:each="product : ${products}" th:href="@{/productDetails/{id}(id=${product.id})}" class="product-card">
         <img th:src="${product.imageUrl}" alt="Product Image" class="product-image">
         <div class="product-info">
           <h3 th:text="${product.name}" class="product-name">Название продукта</h3>
           <p th:text="${product.price} + ' USD'" class="product-price">Цена продукта</p>
         </div>
-      </div>
+      </a>
     </div>
+
   </section>
 </div>
 
